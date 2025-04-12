@@ -1,0 +1,126 @@
+.create-post-container {
+    width: 100%;
+    max-width: 500px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 0 auto 20px; /* center & add spacing */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+    position: relative;
+    padding-bottom: 10px; /* space for post button */
+  }
+  
+  /* Header */
+  .create-post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .profile-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+  }
+  
+  .profile-name {
+    font-weight: bold;
+  }
+  
+  .privacy-dropdown {
+    margin-top: 2px;
+    border: 1px solid #ccc;
+    background: #f1f1f1;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
+  .close-btn {
+    font-size: 1.2rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  /* Body */
+  .create-post-body {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px;
+  }
+  
+  .post-textarea {
+    width: 100%;
+    resize: none;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    min-height: 80px;
+    margin-bottom: 10px;
+  }
+  
+  .post-textarea::placeholder {
+    color: #999;
+  }
+  
+  .post-extras {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+  }
+  
+  .extras-title {
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .extras-icons {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .icon-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #444;
+    font-size: 1.1rem;
+  }
+  
+  .icon-btn:hover {
+    color: #1da1f2; /* or your preferred highlight color */
+  }
+  
+  .post-btn {
+    width: 100%;
+    padding: 8px;
+    background-color: #1da1f2;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .post-btn:hover {
+    background-color: #1991da;
+  }
+  
