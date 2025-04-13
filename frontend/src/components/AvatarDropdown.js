@@ -1,4 +1,3 @@
-// frontend/src/components/AvatarDropdown.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -9,30 +8,32 @@ function AvatarDropdown({ user, onLogout }) {
 
   return (
     <div className="avatar-dropdown" style={{ position: 'relative', display: 'inline-block' }}>
-      <img 
-        src="https://via.placeholder.com/40" 
-        alt="Avatar" 
-        onClick={toggleDropdown} 
+      <img
+        src="https://via.placeholder.com/40"
+        alt="Avatar"
+        onClick={toggleDropdown}
         style={{ borderRadius: '50%', cursor: 'pointer' }}
       />
       {open && (
-        <div 
-          className="dropdown-menu" 
+        <div
+          className="dropdown-menu"
           style={{
-            position: 'absolute', 
-            right: 0, 
-            top: '45px', 
-            background: '#fff', 
-            border: '1px solid #ccc', 
+            position: 'absolute',
+            right: 0,
+            top: '45px',
+            background: '#fff',
+            border: '1px solid #ccc',
             borderRadius: '8px',
             padding: '10px',
             boxShadow: '0 2px 6px rgba(0,0,0,0.1)'
-          }}>
+          }}
+        >
           {user ? (
             <>
+              <Link to="/my-memories" onClick={() => setOpen(false)}>My Memories</Link><br/>
               <Link to="/profile" onClick={() => setOpen(false)}>Profile</Link><br/>
               <Link to="/settings" onClick={() => setOpen(false)}>Settings</Link><br/>
-              <button onClick={() => { onLogout(); setOpen(false()); }}>Log Out</button>
+              <button onClick={() => { onLogout(); setOpen(false); }}>Log Out</button>
             </>
           ) : (
             <Link to="/register" onClick={() => setOpen(false)}>Register</Link>

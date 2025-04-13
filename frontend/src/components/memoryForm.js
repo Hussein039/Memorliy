@@ -1,51 +1,51 @@
 // frontend/src/components/MemoryForm.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
+import './MemoryForm.css';
 
-const MemoryForm = () => {
-  const [formData, setFormData] = useState({
-    text: '',
-    emotion: '',
-    date: '',
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+function MemoryForm({ user, onMemoryPosted }) {
+  const [text, setText] = useState('');
+  const [emotion, setEmotion] = useState('');
+  const [posting, setPosting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!text || !emotion) return alert('Fill in both text and emotion');
+
+    setPosting(true);
     try {
-      await axios.post('http://localhost:5000/api/memories', formData);
-      alert('Memory shared!');
-      setFormData({ text: '', emotion: '', date: '' });
+      const token = localStorage.getItem('memorliyToken');
+      const res = await axios.post(
+        'http://localhost:5000/api/memories',
+        { text, emotion },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setText('');
+      setEmotion('');
+      if (onMemoryPosted) onMemoryPosted(res.data);
     } catch (err) {
-      console.error('Error submitting memory:', err);
-      alert('Failed to submit memory.');
+      console.error('Error posting memory:', err);
+      alert('Error posting memory');
+    } finally {
+      setPosting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow">
+    <form className="memory-form" onSubmit={handleSubmit}>
+      <h3>Share a Memory</h3>
       <textarea
-        name="text"
-        value={formData.text}
-        onChange={handleChange}
-        placeholder="Share your memory..."
-        className="w-full p-2 border rounded mb-2"
-        rows="5"
-        required
-      ></textarea>
-
+        placeholder="What's on your mind?"
+        rows={3}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
       <select
-        name="emotion"
-        value={formData.emotion}
-        onChange={handleChange}
-        className="w-full p-2 border rounded mb-2"
+        value={emotion}
+        onChange={(e) => setEmotion(e.target.value)}
         required
       >
-        <option value="">Select an emotion</option>
+        <option value="">Select Emotion</option>
         <option value="Heartwarming">Heartwarming</option>
         <option value="Sad">Sad</option>
         <option value="Mysterious">Mysterious</option>
@@ -53,23 +53,11 @@ const MemoryForm = () => {
         <option value="Regretful">Regretful</option>
         <option value="Inspiring">Inspiring</option>
       </select>
-
-      <input
-        type="date"
-        name="date"
-        value={formData.date}
-        onChange={handleChange}
-        className="w-full p-2 border rounded mb-2"
-      />
-
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Share Memory
+      <button type="submit" disabled={posting}>
+        {posting ? 'Posting...' : 'Post'}
       </button>
     </form>
   );
-};
+}
 
 export default MemoryForm;

@@ -7,30 +7,39 @@ import MemoryCard from './MemoryCard';
 function MemoryFeed({ user }) {
   const [memories, setMemories] = useState([]);
 
-  // Function to fetch all memories from the backend
   const fetchMemories = async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/memories');
+      // Assuming your backend returns memories sorted with newest first,
+      // if not, you could sort here using: res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       setMemories(res.data);
-    } catch (error) {
-      console.error('Error fetching memories:', error);
+    } catch (err) {
+      console.error('Error fetching memories:', err);
     }
   };
 
-  // Fetch memories on component mount
   useEffect(() => {
     fetchMemories();
   }, []);
 
-  return (
-    <div>
-      {/* The memory posting form (styled like your design) at the top */}
-      <MemoryForm user={user} />
+  // This function inserts a new memory at the top of the array.
+  const onMemoryPosted = (newMemory) => {
+    setMemories(prev => [newMemory, ...prev]);
+  };
 
-      {/* Render each memory as a MemoryCard */}
-      {memories.map((memory) => (
-        <MemoryCard key={memory._id} memory={memory} />
-      ))}
+  return (
+    <div className="memory-feed-container">
+      {user ? (
+        <MemoryForm user={user} onMemoryPosted={onMemoryPosted} />
+      ) : (
+        <p>Please <a href="/login">login</a> to share a memory.</p>
+      )}
+
+      <div className="memory-list">
+        {memories.map((memory) => (
+          <MemoryCard key={memory._id} memory={memory} />
+        ))}
+      </div>
     </div>
   );
 }

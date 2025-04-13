@@ -1,31 +1,28 @@
+// frontend/src/components/MemoryCard.js
 import React from 'react';
-import axios from 'axios';
+import { motion } from 'framer-motion';
 
 function MemoryCard({ memory }) {
-  const handleReact = async (reaction) => {
-    try {
-      await axios.post(`http://localhost:5000/api/memories/${memory._id}/react`, { reaction });
-      // Optionally update local state or re-fetch the memory list for updated reactions
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return (
-    <div className="memory-card">
-      {memory.title && <h3>{memory.title}</h3>}
-      <p>{memory.text.substring(0, 100)}...</p>
-      <p>
-        <strong>Emotion:</strong> {memory.emotion}
+    <motion.div
+      className="memory-card"
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: 'spring', stiffness: 100 }}
+      style={{
+        background: '#fff',
+        borderRadius: '12px',
+        padding: '1.5rem',
+        marginBottom: '1rem',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+      }}
+    >
+      <p><strong>Text:</strong> {memory.text}</p>
+      <p><strong>Emotion:</strong> {memory.emotion}</p>
+      <p style={{ fontSize: '0.8rem', color: '#888' }}>
+        Posted on: {new Date(memory.createdAt).toLocaleString()}
       </p>
-      <div className="reactions">
-        <button onClick={() => handleReact('heart')}>💖 {memory.reactions?.heart || 0}</button>
-        <button onClick={() => handleReact('sad')}>😢 {memory.reactions?.sad || 0}</button>
-        <button onClick={() => handleReact('mindblown')}>🤯 {memory.reactions?.mindblown || 0}</button>
-        <button onClick={() => handleReact('laugh')}>😂 {memory.reactions?.laugh || 0}</button>
-        <button onClick={() => handleReact('repeat')}>🔁 {memory.reactions?.repeat || 0}</button>
-      </div>
-    </div>
+    </motion.div>
   );
 }
 
